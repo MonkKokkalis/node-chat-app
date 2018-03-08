@@ -17,6 +17,11 @@ io.on('connection', (socket) => {
 
     socket.on('createMessage', (messageData) => {
         console.log('create Message', messageData);
+        io.emit('newMessage', {
+            from: messageData.from,
+            text: messageData.text,
+            createdAt: new Date().getTime()
+        })
     })
     socket.on('disconnect', () => {
         console.log('user was diconnected');
@@ -25,11 +30,6 @@ io.on('connection', (socket) => {
     socket.on('createEmail', (newEmail) => {
         console.log('create email', newEmail);
     })
-
-    socket.emit('newMessage', ({
-        from: 'Everard',
-        message: 'In peace, Vigilance. In War, Victory. In death, Sacrifice.'
-    }))
 })
 
 app.use(express.static(publicPath));
